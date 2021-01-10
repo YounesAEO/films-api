@@ -2,8 +2,10 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 
-import models, { connectDb } from "./models";
-import routes from "./routes";
+import { connectDb } from "./config";
+import Modules from "./modules";
+
+const { UserModule, MessageModule } = Modules;
 
 const app = express();
 
@@ -14,16 +16,15 @@ app.use(express.urlencoded({ extended: true }));
 // Custom Middleware
 app.use(async (req, res, next) => {
   req.context = {
-    models,
-    me: await models.User.findByLogin("rwieruch"),
+    modules: Modules,
+    me: await UserModule.services.fetchdByLogin("rwieruch"),
   };
   next();
 });
 
 // * Routes * //
-app.use("/session", routes.session);
-app.use("/users", routes.user);
-app.use("/messages", routes.message);
+app.use("/users", UserModule.router);
+app.use("/messages", MessageModule.router);
 
 app.get("*", function (req, res, next) {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
@@ -35,9 +36,9 @@ app.get("*", function (req, res, next) {
 app.use((error, req, res, next) => {
   if (!error.statusCode) error.statusCode = 500;
 
-  if (error.statusCode === 301) {
-    return res.status(301).redirect("/not-found");
-  }
+  // if (error.statusCode === 301) {
+  //   return res.status(301).redirect("/not-found");
+  // }
 
   return res.status(error.statusCode).json({ error: error.toString() });
 });
@@ -48,8 +49,8 @@ const eraseDatabaseOnSync = true;
 connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
     await Promise.all([
-      models.User.deleteMany({}),
-      models.Message.deleteMany({}),
+      UserModule.services.deleteAll(),
+      MessageModule.services.deleteAll(),
     ]);
 
     createUsersWithMessages();
@@ -61,33 +62,26 @@ connectDb().then(async () => {
 });
 
 const createUsersWithMessages = async () => {
-  const user1 = new models.User({
+  const user1 = await UserModule.services.createOne({
     username: "rwieruch",
   });
 
-  const user2 = new models.User({
+  const user2 = await UserModule.services.createOne({
     username: "ddavids",
   });
 
-  const message1 = new models.Message({
+  await MessageModule.services.createOne({
     text: "Published the Road to learn React",
-    user: user1.id,
+    user: user1._id,
   });
 
-  const message2 = new models.Message({
+  await MessageModule.services.createOne({
     text: "Happy to release ...",
-    user: user2.id,
+    user: user2._id,
   });
 
-  const message3 = new models.Message({
+  await MessageModule.services.createOne({
     text: "Published a complete ...",
-    user: user2.id,
+    user: user2._id,
   });
-
-  await message1.save();
-  await message2.save();
-  await message3.save();
-
-  await user1.save();
-  await user2.save();
 };
