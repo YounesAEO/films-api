@@ -21,4 +21,12 @@ router.get("/:userId", async (req, res, next) => {
   return res.send(user);
 });
 
+router.delete("/:userId", async (req, res, next) => {
+  const user = await Services.deleteById({
+    id: req.params.userId,
+  }).catch((error) => next(new BadRequestError(error)));
+
+  return res.send(user);
+});
+
 export default router;

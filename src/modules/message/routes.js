@@ -43,13 +43,9 @@ router.post("/", async (req, res, next) => {
 });
 
 router.delete("/:messageId", async (req, res, next) => {
-  const message = await Services.fetchById({
+  const message = await Services.deleteById({
     id: req.params.messageId,
   }).catch((error) => next(new BadRequestError(error)));
-
-  if (message) {
-    await message.remove();
-  }
 
   return res.send(message);
 });
