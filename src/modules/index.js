@@ -1,7 +1,7 @@
-import UserModule from "./user";
-import MessageModule from "./message";
+import UserModule from './user';
+import FilmModule from './film';
 
 export default {
-  UserModule,
-  MessageModule,
+	UserModule,
+	FilmModule,
 };
