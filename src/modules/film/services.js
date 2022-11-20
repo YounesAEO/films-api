@@ -1,4 +1,6 @@
 import Model from './model';
+import { buildSearchMovieQuery } from '../../utils/build-query';
+import axios from 'axios';
 
 export const deleteAll = async () => {
 	return Model.deleteMany({});
@@ -22,4 +24,14 @@ export const fetchById = async ({ id }) => {
 
 export const createOne = async (data) => {
 	return Model.create(data);
+};
+
+export const search = async (data) => {
+	const { keywords } = data;
+	const query = buildSearchMovieQuery(keywords);
+	return axios(query, {
+		validateStatus: (status) => {
+			return status === 200;
+		},
+	});
 };
