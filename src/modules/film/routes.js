@@ -70,8 +70,6 @@ router.get("/:filmId", async (req, res, next) => {
   const id = req.params.filmId;
   const response = await Services.findById({ id }).catch((error) => next(new BadRequestError(error)));
 
-  console.log("id", id)
-
   return res.send({
     _id: response.data.id,
     title: response.data.title,
@@ -80,6 +78,7 @@ router.get("/:filmId", async (req, res, next) => {
     releaseDate: response.data.release_date,
     totalRatings: response.data.vote_count,
     averageRating: response.data.vote_average,
+    duration: response.data.runtime,
     categories: GENRES.filter((genre) =>
       response.data.genres.find(element => element.id == genre.id)
     ).map((g) => g.name),
