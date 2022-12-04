@@ -1,33 +1,23 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
-    //only used to test routes on the frontend
     _id: { type: mongoose.Schema.Types.Mixed },
-    email: {
+    firstName: {
       type: String,
-      unique: true,
-      required: true,
-      lowercase: true,
       trim: true,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: true,
     },
     username: {
       type: String,
       unique: true,
       required: true,
-      // lowercase: true,
-      // trim: true,
-    },
-
-    firstName: {
-      type: String,
-      trim: true,
-      default: "",
-    },
-    lastName: {
-      type: String,
-      trim: true,
-      default: "",
+      lowercase: true,
     },
     password: {
       type: String,
@@ -39,10 +29,10 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     favFilms: {
-      type: [{ type: Number, ref: "Film" }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Film" }],
     },
   },
-  { timestamps: true /*_id: false */ }
+  { timestamps: true }
 );
 
 userSchema.statics.findByLogin = async function (login) {
@@ -56,11 +46,4 @@ userSchema.statics.findByLogin = async function (login) {
 
   return user;
 };
-
-// userSchema.pre('remove', function (next) {
-// 	this.model('Film').deleteMany({ user: this._id }, next);
-// });
-
-const User = mongoose.model("User", userSchema);
-
-export default User;
+module.exports = mongoose.model("User", userSchema);
