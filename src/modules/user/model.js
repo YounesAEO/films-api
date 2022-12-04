@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.Mixed },
+    // _id: { type: mongoose.Schema.Types.Mixed },
     firstName: {
       type: String,
       trim: true,
@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
       default: "",
     },
     favFilms: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Film" }],
+      type: [{ type: Number, ref: "Film" }],
     },
   },
   { timestamps: true }

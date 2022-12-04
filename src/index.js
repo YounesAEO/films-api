@@ -21,15 +21,12 @@ app.use("/users", UserModule.router);
 app.use("/films", FilmModule.router);
 
 app.get("/logout", (request, response) => {
-  console.log("TOTO");
-  console.log("D'abord", request.session);
   request.session.destroy((error) => {
     if (error)
       return response.status(409).json({ message: "Erreur déconnexion" });
     response
       .status(200)
       .json({ message: "Déconexion réussie ! ", session: request.session });
-    console.log("Ensuite:", request.session);
   });
 });
 
@@ -103,17 +100,21 @@ const createUsersWithFilms = async () => {
   });
 
   await UserModule.services.createOne({
-    _id: 1,
+    // _id: 1,
+    firstName: "yopi",
+    lastName: "sas",
     username: "yopisas243",
-    email: "yopisas243@lance7.com",
+    // email: "yopisas243@lance7.com",
     password: "9@4FB4#Y3^jz",
     favFilms: [film1._id],
   });
 
   await UserModule.services.createOne({
-    _id: 2,
+    // _id: 2,
+    firstName: "boda",
+    lastName: "boy",
     username: "bodaboy952",
-    email: "bodaboy952@sopulit.com",
+    // email: "bodaboy952@sopulit.com",
     password: "eXje%$f95kB2",
     favFilms: [film2._id, film3._id],
   });
