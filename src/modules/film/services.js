@@ -2,6 +2,7 @@ import Model from "./model";
 import {
   buildSearchMovieQuery,
   buildGetLatestMoviesQuery,
+  buildFindIdQuery
 } from "../../utils/build-query";
 import axios from "axios";
 
@@ -41,6 +42,15 @@ export const search = async (data) => {
 
 export const getLatest = async () => {
   const query = buildGetLatestMoviesQuery();
+  return axios(query, {
+    validateStatus: (status) => {
+      return status === 200;
+    },
+  });
+};
+
+export const findById = async ({ id }) => {
+  const query = buildFindIdQuery(id);
   return axios(query, {
     validateStatus: (status) => {
       return status === 200;

@@ -67,11 +67,23 @@ router.get("/latest", async (req, res, next) => {
 });
 
 router.get("/:filmId", async (req, res, next) => {
-  const film = await Services.fetchById({
-    id: req.params.filmId,
-  }).catch((error) => next(new BadRequestError(error)));
+  const id = req.params.filmId;
+  const response = await Services.findById({ id }).catch((error) => next(new BadRequestError(error)));
 
-  return res.send(film);
+  console.log("id", id)
+
+  return res.send({
+    _id: response.data.id,
+    title: response.data.title,
+    synopsis: response.data.overview,
+    coverPic: `https://image.tmdb.org/t/p/original${response.data.poster_path}`,
+    releaseDate: response.data.release_date,
+    totalRatings: response.data.vote_count,
+    averageRating: response.data.vote_average,
+    categories: GENRES.filter((genre) =>
+      response.data.genres.find(element => element.id == genre.id)
+    ).map((g) => g.name),
+  });
 });
 
 router.post("/", async (req, res, next) => {

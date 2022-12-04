@@ -13,3 +13,8 @@ export const buildSearchMovieQuery = (keywords) => {
 export const buildGetLatestMoviesQuery = () => {
   return `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=${LANG}`;
 };
+
+
+export const buildFindIdQuery = (id) => {
+  return `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=${LANG}`;
+};
