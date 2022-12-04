@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     //only used to test routes on the frontend
-    // _id: { type: Number },
+    _id: { type: mongoose.Schema.Types.Mixed },
     email: {
       type: String,
       unique: true,

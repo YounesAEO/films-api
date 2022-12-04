@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { BadRequestError } from "../../utils/errors";
+import { GENRES } from "../../utils/constants";
 
 import * as Services from "./services";
 
@@ -39,6 +40,30 @@ router.get("/search", async (req, res, next) => {
   }
 
   next(new BadRequestError({ message: "missing search query" }));
+});
+
+router.get("/latest", async (req, res, next) => {
+  const response = await Services.getLatest().catch((error) =>
+    next(new BadRequestError(error))
+  );
+
+  return res.send({
+    ...response.data,
+    results: response.data.results.map((res) => {
+      return {
+        _id: res.id,
+        title: res.title,
+        synopsis: res.overview,
+        coverPic: `https://image.tmdb.org/t/p/original${res.poster_path}`,
+        releaseDate: res.release_date,
+        totalRatings: res.vote_count,
+        averageRating: res.vote_average,
+        categories: GENRES.filter((genre) =>
+          res.genre_ids.includes(genre.id)
+        ).map((g) => g.name),
+      };
+    }),
+  });
 });
 
 router.get("/:filmId", async (req, res, next) => {

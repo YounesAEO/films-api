@@ -70,7 +70,7 @@ const createUsersWithFilms = async () => {
   });
 
   await UserModule.services.createOne({
-    // _id: 1,
+    _id: 1,
     username: "yopisas243",
     email: "yopisas243@lance7.com",
     password: "9@4FB4#Y3^jz",
@@ -78,7 +78,7 @@ const createUsersWithFilms = async () => {
   });
 
   await UserModule.services.createOne({
-    // _id: 2,
+    _id: 2,
     username: "bodaboy952",
     email: "bodaboy952@sopulit.com",
     password: "eXje%$f95kB2",

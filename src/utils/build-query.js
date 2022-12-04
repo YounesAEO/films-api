@@ -9,3 +9,7 @@ export const buildSearchMovieQuery = (keywords) => {
   const cleanKeywords = keywords.split(" ").join("%20");
   return `${BASE_URL}/search/movie?api_key=${API_KEY}&language=${LANG}&with_original_language=${ORIGINAL_LANG}&query=${cleanKeywords}&include_adult=false`;
 };
+
+export const buildGetLatestMoviesQuery = () => {
+  return `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=${LANG}`;
+};
