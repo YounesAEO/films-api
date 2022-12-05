@@ -16,5 +16,15 @@ export const buildGetLatestMoviesQuery = () => {
 
 
 export const buildFindIdQuery = (id) => {
-  return `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=${LANG}`;
+
+  const queries = [
+    `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=${LANG}`,
+    `${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=${LANG}`,
+    `${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}&language=${LANG}`,
+    `${BASE_URL}/movie/${id}/reviews?api_key=${API_KEY}&language=${LANG}`,
+  ];
+
+  return queries;
+
+  //return `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=${LANG}`;
 };

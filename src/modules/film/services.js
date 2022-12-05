@@ -49,11 +49,44 @@ export const getLatest = async () => {
   });
 };
 
-export const findById = async ({ id }) => {
-  const query = buildFindIdQuery(id);
+export const getMovieById = async ({ id }) => {
+  const queries = buildFindIdQuery(id);
+  const query = queries[0];
   return axios(query, {
     validateStatus: (status) => {
       return status === 200;
     },
   });
 };
+
+export const getCreditsById = async ({ id }) => {
+  const queries = buildFindIdQuery(id);
+  const query = queries[1];
+  return axios(query, {
+    validateStatus: (status) => {
+      return status === 200;
+    },
+  });
+};
+
+export const getVideosById = async ({ id }) => {
+  const queries = buildFindIdQuery(id);
+  const query = queries[2];
+  return axios(query, {
+    validateStatus: (status) => {
+      return status === 200;
+    },
+  });
+};
+
+export const getReviewsById = async ({ id }) => {
+  const queries = buildFindIdQuery(id);
+  const query = queries[3];
+  return axios(query, {
+    validateStatus: (status) => {
+      return status === 200;
+    },
+  });
+};
+
+
