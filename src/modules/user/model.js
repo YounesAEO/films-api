@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
       default: "",
     },
     favFilms: {
-      type: [{ type: Number, ref: "Film" }],
+      type: [{ type: Number }],
     },
   },
   { timestamps: true }

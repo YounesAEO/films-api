@@ -16,6 +16,16 @@ app.use(cors({ credentials: true, origin: "http://localhost:4200" }));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(
+  session({
+    name: "Cookie",
+    secret: "mySecretKey",
+    resave: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    saveUninitialized: true,
+  })
+);
+
 // * Routes * //
 app.use("/users", UserModule.router);
 app.use("/films", FilmModule.router);
@@ -66,7 +76,7 @@ app.use((error, req, res, next) => {
 
 // * Start * //
 // SET TO FALSE TO AVOID ERASING OLDER DB DOCUMENTS
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 
 connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
@@ -75,7 +85,7 @@ connectDb().then(async () => {
       FilmModule.services.deleteAll(),
     ]);
 
-    createUsersWithFilms();
+    // createUsersWithFilms();
   }
 
   app.listen(process.env.PORT, () =>
@@ -122,16 +132,6 @@ const createUsersWithFilms = async () => {
 
 // Partie Authentification
 
-app.use(
-  session({
-    name: "Cookie",
-    secret: "mySecretKey",
-    resave: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
-    saveUninitialized: true,
-  })
-);
-
 //Login
 app.post("/login", (request, response) => {
   User.findOne(
@@ -151,6 +151,8 @@ app.post("/login", (request, response) => {
           message: "Connection réussite ! ",
           username: user.username,
           fullName: user.lastName + " " + user.firstName,
+          favFilms: user.favFilms,
+          userId: user._id,
           session: request.session,
         },
       });
