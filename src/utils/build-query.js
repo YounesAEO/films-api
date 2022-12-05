@@ -3,6 +3,7 @@ import "dotenv/config";
 const BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = process.env.TMDB_API_KEY;
 const LANG = "fr-FRA";
+const LANG2 = "en-US";
 const ORIGINAL_LANG = "en";
 
 export const buildSearchMovieQuery = (keywords) => {
@@ -21,7 +22,7 @@ export const buildFindIdQuery = (id) => {
     `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=${LANG}`,
     `${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=${LANG}`,
     `${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}&language=${LANG}`,
-    `${BASE_URL}/movie/${id}/reviews?api_key=${API_KEY}&language=${LANG}`,
+    `${BASE_URL}/movie/${id}/reviews?api_key=${API_KEY}&language=${LANG2}`,
   ];
 
   return queries;
