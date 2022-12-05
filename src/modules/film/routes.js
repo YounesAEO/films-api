@@ -95,8 +95,6 @@ router.get("/:filmId", async (req, res, next) => {
     };
   })
 
-  console.log(reviews);
-
   return res.send({
     _id: response.data.id,
     title: response.data.title,
