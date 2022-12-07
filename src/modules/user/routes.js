@@ -33,7 +33,6 @@ router.put("/:userId/list", async (req, res, next) => {
       : {
           favFilms: userData.favFilms.concat([req.body.filmId]),
         };
-    console.log(updatedData);
     const user = await Services.updateById({
       id: req.params.userId,
       data: {
@@ -72,14 +71,13 @@ router.delete("/:userId/list/:filmId", async (req, res, next) => {
   }).catch((error) => next(new BadRequestError(error)));
 
   const updatedList = user.favFilms.filter(
-    (film) => film !== req.params.filmId
+    (film) => film !== Number(req.params.filmId)
   );
-
   const updatedUser = await Services.updateById({
     id: req.params.userId,
-    data: updatedList,
+    data: { favFilms: updatedList },
+    config: { new: true },
   }).catch((error) => next(new BadRequestError(error)));
-
   return res.send(updatedUser);
 });
 
