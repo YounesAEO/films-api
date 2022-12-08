@@ -187,6 +187,8 @@ app.post("/register", (request, response) => {
           data: {
             username: user.username,
             fullName: user.lastName + " " + user.firstName,
+            favFilms: user.favFilms,
+            userId: user._id,
             session: request.session,
           },
         });

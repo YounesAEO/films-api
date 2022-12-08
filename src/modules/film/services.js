@@ -2,7 +2,7 @@ import Model from "./model";
 import {
   buildSearchMovieQuery,
   buildGetLatestMoviesQuery,
-  buildFindIdQuery
+  buildFindIdQuery,
 } from "../../utils/build-query";
 import axios from "axios";
 
@@ -88,5 +88,3 @@ export const getReviewsById = async ({ id }) => {
     },
   });
 };
-
-
