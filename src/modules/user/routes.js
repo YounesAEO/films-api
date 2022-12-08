@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { BadRequestError } from "../../utils/errors";
 
 import * as Services from "./services";
+import * as NoteServices from "../note/services";
 
 const router = Router();
 
@@ -40,6 +41,11 @@ router.put("/:userId/list", async (req, res, next) => {
       },
       config: { new: true },
     }).catch((error) => next(new BadRequestError(error)));
+
+    const note = await NoteServices.createOne({
+      userId: req.params.userId,
+      filmId: req.body.filmId,
+    });
 
     return res.send(user);
   }

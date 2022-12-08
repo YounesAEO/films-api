@@ -6,7 +6,10 @@ import * as Services from "./services";
 const router = Router();
 
 router.get("/", async (req, res, next) => {
-  const notes = await Services.fetchAll().catch((error) =>
+  const filmId = req.query.filmId;
+  const userId = req.query.userId;
+  const query = userId && filmId ? { filmId, userId } : {};
+  const notes = await Services.fetchAll(query).catch((error) =>
     next(new BadRequestError(error))
   );
 
@@ -16,9 +19,18 @@ router.get("/", async (req, res, next) => {
 router.get("/:noteId", async (req, res, next) => {});
 
 router.post("/", async (req, res, next) => {
-  const note = await Services.createOne({
-    text: req.body.text,
-    user: req.context.me._id,
+  const note = await Services.createOne(req.body).catch((error) =>
+    next(new BadRequestError(error))
+  );
+
+  return res.send(note);
+});
+
+router.put("/:noteId", async (req, res, next) => {
+  const note = await Services.updateById({
+    id: req.params.noteId,
+    data: req.body,
+    config: { new: true },
   }).catch((error) => next(new BadRequestError(error)));
 
   return res.send(note);

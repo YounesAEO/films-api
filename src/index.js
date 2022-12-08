@@ -1,9 +1,9 @@
 import { connectDb } from "./config";
-const { UserModule, FilmModule } = Modules;
+const { UserModule, FilmModule, NoteModule } = Modules;
 import Modules from "./modules";
 import "dotenv/config";
 
-const { request, response } = require("express");
+// const { request, response } = require("express");
 const User = require("./modules/user/model");
 const session = require("express-session");
 var bodyParser = require("body-parser");
@@ -29,6 +29,7 @@ app.use(
 // * Routes * //
 app.use("/users", UserModule.router);
 app.use("/films", FilmModule.router);
+app.use("/notes", NoteModule.router);
 
 app.get("/logout", (request, response) => {
   request.session.destroy((error) => {
